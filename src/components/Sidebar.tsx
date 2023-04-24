@@ -10,7 +10,7 @@ function Sidebar(props: SidebarProps) {
       <div className="fixed w-20 h-shreen bg-white border-r-[1px] flex flex-col justify-between">
         <div className="flex flex-col items-center">
           <Link href="/">
-            <div className="bg-purple-800 text-white p-3 rounded-lg inline-block">
+            <div className="bg-purple-800 text-white my-4 p-3 rounded-lg inline-block">
               <RxSketchLogo size={20} />
             </div>
           </Link>
@@ -47,7 +47,3 @@ export default Sidebar;
 type SidebarProps = {
   children: React.ReactNode; // 👈️ define children prop
 };
-
-// const Sidebar = () => {
-//   return <div>{props.children}</div>;
-// };
