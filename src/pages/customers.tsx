@@ -31,7 +31,7 @@ const requestBody = {
 
 const graphQLOptions = {
   method: "POST",
-  url: "http://localhost:4350/graphql", //process.env.NEXT_PUBLIC_SQUID_URL || "http://localhost:4350/graphql",
+  url: process.env.NEXT_PUBLIC_SQUID_URL || "http://localhost:4350/graphql",
   headers,
   data: requestBody,
 };
