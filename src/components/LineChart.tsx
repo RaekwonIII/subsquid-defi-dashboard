@@ -1,20 +1,8 @@
 import { useState, useEffect } from "react";
 import { Line } from "react-chartjs-2";
-// import {
-//   Chart as ChartJS,
-//   CategoryScale,
-//   LinearScale,
-//   Title,
-//   Tooltip,
-//   Legend,
-//   ChartData, ChartOptions, PointElement, LineElement
-// } from "chart.js";
-
-// ChartJS.register(CategoryScale, LinearScale, Title, Tooltip, Legend, PointElement, LineElement);
 
 import { ChartData, ChartOptions } from "chart.js";
 import 'chart.js/auto'
-import axios from "axios";
 
 export const options = {
   responsive: true,
@@ -45,28 +33,6 @@ export const options = {
   },
 };
 
-const headers = {
-  "content-type": "application/json",
-};
-
-const requestBody = {
-  query: `query MyQuery {
-    getMarketDayData {
-      day
-      totalBorrows
-      totalSupply
-    }
-  }
-  `,
-};
-
-const graphQLOptions = {
-  method: "POST",
-  url:  process.env.NEXT_PUBLIC_SQUID_URL || "http://localhost:4350/graphql",
-  headers,
-  data: requestBody,
-};
-
 export const CHART_COLORS = {
   red: 'rgb(255, 99, 132)',
   orange: 'rgb(255, 159, 64)',
@@ -85,37 +51,27 @@ function LineChart() {
     null
   );
   useEffect(() => {
-    try {
-      axios(graphQLOptions).then((response) => {
-        setChartData({
-          labels: [
-            ...response.data.data.getMarketDayData.map((obj: any) => new Date(obj.day).toLocaleDateString()),
-          ],
-          datasets: [
-            {
-              label: "Total Borrows daily values",
-              data: [
-                ...response.data.data.getMarketDayData.map((obj: any) => obj.totalBorrows),
-              ],
-              borderColor: CHART_COLORS.red,
-              backgroundColor: CHART_COLORS.red.replace(')', ', 0.5)').replace('rgb', 'rgba'),
-              yAxisID: 'y',
-            },
-            {
-              label: "Total Supply daily values",
-              data: [
-                ...response.data.data.getMarketDayData.map((obj: any) => obj.totalSupply),
-              ],
-              borderColor: CHART_COLORS.blue,
-              backgroundColor: CHART_COLORS.blue.replace(')', ', 0.5)').replace('rgb', 'rgba'),
-              yAxisID: 'y1',
-            },
-          ],
-        });
-      });
-    } catch (err) {
-      console.log("ERROR DURING AXIOS REQUEST", err);
-    }
+    setChartData({
+      labels: [
+        'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'
+      ],
+      datasets: [
+        {
+          label: "Total Borrows daily values",
+          data: [18127, 22201, 17938, 24182, 17842, 22475, 19455],
+          borderColor: CHART_COLORS.red,
+          backgroundColor: CHART_COLORS.red.replace(')', ', 0.5)').replace('rgb', 'rgba'),
+          yAxisID: 'y',
+        },
+        {
+          label: "Total Supply daily values",
+          data: [2220.1, 1793.8, 2418.2, 1784.2, 2247.5, 1945.5, 1812.7],
+          borderColor: CHART_COLORS.blue,
+          backgroundColor: CHART_COLORS.blue.replace(')', ', 0.5)').replace('rgb', 'rgba'),
+          yAxisID: 'y1',
+        },
+      ],
+    });
 
     setChartOptions(options)
   }, [])
